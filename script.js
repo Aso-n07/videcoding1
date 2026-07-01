@@ -1,4 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Supabase 클라이언트 초기화
+    const supabaseUrl = 'https://rktugcrdyhmpavvvboac.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJrdHVnY3JkeWhtcGF2dnZib2FjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI4NTkxNjQsImV4cCI6MjA5ODQzNTE2NH0.RsdRItVWxDL1OfK7ydhwTv-6qjrDyd9ermlYNDUVW0o';
+    const supabase = window.supabase ? window.supabase.createClient(supabaseUrl, supabaseKey) : null;
+
     const signupForm = document.getElementById('signupForm');
     const successModal = document.getElementById('successModal');
     const modalConfirmBtn = document.getElementById('modalConfirmBtn');
@@ -141,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // 폼 제출 이벤트 핸들링
-    signupForm.addEventListener('submit', (e) => {
+    signupForm.addEventListener('submit', async (e) => {
         e.preventDefault(); // 기본 서버 전송 방지
 
         let isAllValid = true;
@@ -154,9 +159,56 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // 모든 입력값이 올바른 경우 가입 완료 모달 표시
+        // 모든 입력값이 올바른 경우 가입 처리 진행
         if (isAllValid) {
-            showSuccessModal();
+            const submitBtn = signupForm.querySelector('.submit-btn');
+            const originalBtnText = submitBtn.innerHTML;
+            
+            try {
+                // 버튼 비활성화 및 로딩 표시
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<span>처리 중...</span><i class="fa-solid fa-spinner fa-spin"></i>';
+                
+                if (!supabase) {
+                    throw new Error('Supabase 클라이언트가 초기화되지 않았습니다.');
+                }
+
+                // DB에 가입 정보 삽입
+                const { error } = await supabase
+                    .from('member')
+                    .insert([
+                        {
+                            user_id: fields.userId.input.value.trim(),
+                            password: fields.password.input.value.trim(),
+                            email: fields.email.input.value.trim(),
+                            phone: fields.phone.input.value.trim()
+                        }
+                    ]);
+
+                if (error) {
+                    // 아이디 중복 에러 처리 (PostgreSQL Unique Constraint Violation code: 23505)
+                    if (error.code === '23505') {
+                        fields.userId.error.textContent = '이미 존재하는 아이디입니다.';
+                        fields.userId.error.className = 'validation-message error';
+                        fields.userId.input.style.borderColor = 'var(--yju-accent)';
+                        fields.userId.input.focus();
+                    } else {
+                        alert('회원가입 처리 중 오류가 발생했습니다: ' + error.message);
+                    }
+                } else {
+                    // 가입 성공 시 세션 저장
+                    sessionStorage.setItem('loggedInUser', fields.userId.input.value.trim());
+                    // 가입 성공 모달 표시
+                    showSuccessModal();
+                }
+            } catch (err) {
+                console.error(err);
+                alert('회원가입 처리 중 오류가 발생했습니다: ' + err.message);
+            } finally {
+                // 버튼 복구
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText;
+            }
         } else {
             // 에러가 있는 첫 번째 필드 찾기 (직관적인 텍스트 비교 사용)
             const firstErrorKey = Object.keys(fields).find(key => {
