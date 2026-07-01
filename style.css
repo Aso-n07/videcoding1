@@ -1,0 +1,324 @@
+/* Google Fonts - Noto Sans KR & Inter */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+:root {
+    /* 영진전문대학교 브랜드 컬러 시스템 */
+    --yju-primary: #003366;       /* 신뢰감을 주는 딥 네이비 */
+    --yju-primary-hover: #002244; /* 짙은 네이비 (호버용) */
+    --yju-secondary: #0080ff;     /* 밝고 경쾌한 블루 (포인트) */
+    --yju-accent: #ff4d4d;        /* 경고/에러용 레드 */
+    --yju-success: #2ecc71;       /* 성공 표시용 그린 */
+    
+    /* 뉴트럴 톤 */
+    --bg-gradient-start: #f8fafc;
+    --bg-gradient-end: #e2e8f0;
+    --card-bg: rgba(255, 255, 255, 0.95);
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --border-color: #cbd5e1;
+    --border-focus: #3b82f6;
+    
+    /* 그림자 및 효과 */
+    --card-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    --input-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Sans KR', 'Inter', sans-serif;
+    background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 1rem;
+    color: var(--text-main);
+}
+
+.container {
+    width: 100%;
+    max-width: 500px;
+    perspective: 1000px;
+}
+
+.card {
+    background: var(--card-bg);
+    border-radius: 1.5rem;
+    padding: 2.5rem;
+    box-shadow: var(--card-shadow);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    transform: translateY(0);
+    transition: var(--transition-smooth);
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 25px 30px -5px rgba(0, 0, 0, 0.12), 0 15px 15px -5px rgba(0, 0, 0, 0.06);
+}
+
+/* 헤더 영역 */
+.header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.logo-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.8rem;
+}
+
+.logo-icon {
+    font-size: 2rem;
+    color: var(--yju-primary);
+}
+
+.logo-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--yju-primary);
+    letter-spacing: -0.5px;
+}
+
+.logo-text span {
+    color: var(--yju-secondary);
+}
+
+.title {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+/* 폼 디자인 */
+.form-group {
+    margin-bottom: 1.25rem;
+    position: relative;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-main);
+    transition: var(--transition-smooth);
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-wrapper i {
+    position: absolute;
+    left: 1rem;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    transition: var(--transition-smooth);
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 2.7rem;
+    border: 1.5px solid var(--border-color);
+    border-radius: 0.75rem;
+    font-size: 0.95rem;
+    font-family: inherit;
+    color: var(--text-main);
+    background-color: #fff;
+    box-shadow: var(--input-shadow);
+    outline: none;
+    transition: var(--transition-smooth);
+}
+
+/* 포커스 효과 */
+.form-input:focus {
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+}
+
+.form-input:focus + i {
+    color: var(--yju-secondary);
+}
+
+/* 유효성 메시지 */
+.validation-message {
+    font-size: 0.8rem;
+    margin-top: 0.35rem;
+    min-height: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    opacity: 0;
+    transform: translateY(-5px);
+    transition: var(--transition-smooth);
+}
+
+.validation-message.error {
+    color: var(--yju-accent);
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.validation-message.success {
+    color: var(--yju-success);
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 버튼 디자인 */
+.submit-btn {
+    width: 100%;
+    padding: 0.9rem;
+    background-color: var(--yju-primary);
+    color: #fff;
+    border: none;
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 6px -1px rgba(0, 51, 102, 0.2);
+    transition: var(--transition-smooth);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+}
+
+.submit-btn:hover {
+    background-color: var(--yju-primary-hover);
+    box-shadow: 0 10px 15px -3px rgba(0, 51, 102, 0.3);
+    transform: translateY(-1px);
+}
+
+.submit-btn:active {
+    transform: translateY(1px);
+}
+
+/* 푸터 및 링크 */
+.footer-text {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.footer-text a {
+    color: var(--yju-secondary);
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition-smooth);
+}
+
+.footer-text a:hover {
+    text-decoration: underline;
+}
+
+/* 성공 모달창 */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: var(--transition-smooth);
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal {
+    background: #fff;
+    border-radius: 1.5rem;
+    width: 90%;
+    max-width: 400px;
+    padding: 2.5rem;
+    text-align: center;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    transform: scale(0.9) translateY(20px);
+    transition: var(--transition-smooth);
+}
+
+.modal-overlay.active .modal {
+    transform: scale(1) translateY(0);
+}
+
+.modal-icon {
+    width: 60px;
+    height: 60px;
+    background-color: rgba(46, 204, 113, 0.1);
+    color: var(--yju-success);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    margin: 0 auto 1.5rem;
+}
+
+.modal-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: var(--text-main);
+}
+
+.modal-desc {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+}
+
+.modal-btn {
+    padding: 0.75rem 2rem;
+    background-color: var(--yju-primary);
+    color: #fff;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.modal-btn:hover {
+    background-color: var(--yju-primary-hover);
+}
+
+/* 반응형 모바일 최적화 */
+@media (max-width: 480px) {
+    .card {
+        padding: 1.5rem;
+    }
+    
+    .logo-text {
+        font-size: 1.3rem;
+    }
+    
+    .title {
+        font-size: 1.1rem;
+    }
+}
