@@ -109,6 +109,27 @@
             border-color: #fff;
         }
 
+        .lms-btn {
+            background-color: var(--yju-secondary);
+            border: 1px solid var(--yju-secondary);
+            color: #fff;
+            padding: 0.4rem 0.8rem;
+            border-radius: 0.5rem;
+            font-size: 0.85rem;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            transition: var(--transition-smooth);
+            font-weight: 600;
+        }
+
+        .lms-btn:hover {
+            background-color: #0066cc;
+            border-color: #0066cc;
+            box-shadow: 0 0 8px rgba(0, 128, 255, 0.5);
+        }
+
         /* 메인 컨테이너 */
         .portal-container {
             max-width: 1200px;
@@ -405,6 +426,10 @@
                 <i class="fa-solid fa-user-circle"></i>
                 <span id="usernameDisplay"><strong>학습자</strong>님 환영합니다!</span>
             </div>
+            <!-- Y-LMS 바로가기 버튼 추가 -->
+            <a href="https://lms.yju.ac.kr" target="_blank" class="lms-btn">
+                <i class="fa-solid fa-book-open-reader"></i> Y-LMS 바로가기
+            </a>
             <button id="logoutBtn" class="logout-btn">
                 <i class="fa-solid fa-right-from-bracket"></i> 로그아웃
             </button>
